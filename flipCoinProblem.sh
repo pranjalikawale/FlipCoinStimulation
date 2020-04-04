@@ -12,23 +12,35 @@ function random()
 #find Heads or Tails in flip coin
 function flippingCoin()
 {
-	echo "Flip a coin"
-	for ((i=0;i<$1;i++))
-	do
-		if [[ (("$(random)" -eq 0)) && (("$(random)" -eq 0))]]
-		then
-			((flipCoin["(HEADS HEADS)"]++))
-		elif [[ (("$(random)" -eq 0)) && (("$(random)" -eq 1))]]
-		then
-			((flipCoin["(HEADS TAILS)"]++))
-		elif [[ (("$(random)" -eq 1)) && (("$(random)" -eq 0))]]
-		then
-			((flipCoin["(TAILS HEADS)"]++))
-		else
-			((flipCoin["(TAILS TAILS)"]++))
-		fi
-	done
-	storePercentageInDictionary
+   echo "Flip a coin"
+   for ((i=0;i<$1;i++))
+   do
+      if [[ (("$(random)" -eq 0)) && (("$(random)" -eq 0)) && (("$(random)" -eq 0))]]
+      then
+         ((flipCoin["(HEADS HEADS HEADS)"]++))
+      elif [[ (("$(random)" -eq 0)) && (("$(random)" -eq 0)) && (("$(random)" -eq 1))]]
+      then
+         ((flipCoin["(HEADS HEADS TAILS)"]++))
+      elif [[ (("$(random)" -eq 0)) && (("$(random)" -eq 1)) && (("$(random)" -eq 0))]]
+      then
+         ((flipCoin["(HEADS TAILS HEADS)"]++))
+      elif [[ (("$(random)" -eq 0)) && (("$(random)" -eq 1)) && (("$(random)" -eq 1))]]
+      then
+         ((flipCoin["(HEADS TAILS TAILS)"]++))
+      elif [[ (("$(random)" -eq 1)) && (("$(random)" -eq 0)) && (("$(random)" -eq 0))]]
+      then
+         ((flipCoin["(TAILS HEADS HEADS)"]++))
+      elif [[ (("$(random)" -eq 1)) && (("$(random)" -eq 0)) && (("$(random)" -eq 1))]]
+      then
+         ((flipCoin["(TAILS HEADS TAILS)"]++))
+      elif [[ (("$(random)" -eq 1)) && (("$(random)" -eq 1)) && (("$(random)" -eq 0))]]
+      then
+         ((flipCoin["(TAILS TAILS HEADS)"]++))
+      else
+         ((flipCoin["(TAILS TAILS TAILS)"]++))
+      fi
+   done
+   storePercentageInDictionary
 }
 
 #calculate and store percentage in dictionary

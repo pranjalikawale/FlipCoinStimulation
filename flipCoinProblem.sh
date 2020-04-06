@@ -4,76 +4,35 @@ read -p "Number of time you flip coin " counter
 declare -A flipCoin
 win=0
 
+#flipping a coin
+function flippingCoin()
+{
+   for ((i=0;i<$counter;++i))
+   do
+      coinFaceStoreInDictionary $1
+   done
+}
+
 #find random number
 function random()
 {
 	echo $((RANDOM%2))
 }
 
-#find Singlet combination in coin
-function singlet()
+#store in a dictionary
+function coinFaceStoreInDictionary()
 {
-	for ((i=0;i<$1;i++))
-	do
-		if [[ "$(random)" -eq 0 ]]
-		then
-			((flipCoin["HEADS"]++))
-		else
-			((flipCoin["TAILS"]++))
-		fi
-	done
-}
-
-#find doublet combination in coin
-function doublet()
-{
-   for ((i=0;i<$1;i++))
+   for ((j=0;j<$1;++j))
    do
-      if [[ (("$(random)" -eq 0)) && (("$(random)" -eq 0))]]
+      if [[ "$(random)" -eq 0 ]]
       then
-         ((flipCoin["(HEADS HEADS)"]++))
-      elif [[ (("$(random)" -eq 0)) && (("$(random)" -eq 1))]]
-      then
-         ((flipCoin["(HEADS TAILS)"]++))
-      elif [[ (("$(random)" -eq 1)) && (("$(random)" -eq 0))]]
-      then
-         ((flipCoin["(TAILS HEADS)"]++))
+         face+='HEADS '
       else
-         ((flipCoin["(TAILS TAILS)"]++))
+         face+='TAILS '
       fi
    done
-}
-
-#find triplet combination in coin
-function triplet()
-{
-   for ((i=0;i<$1;i++))
-   do
-      if [[ (("$(random)" -eq 0)) && (("$(random)" -eq 0)) && (("$(random)" -eq 0))]]
-      then
-         ((flipCoin["(HEADS HEADS HEADS)"]++))
-      elif [[ (("$(random)" -eq 0)) && (("$(random)" -eq 0)) && (("$(random)" -eq 1))]]
-      then
-         ((flipCoin["(HEADS HEADS TAILS)"]++))
-      elif [[ (("$(random)" -eq 0)) && (("$(random)" -eq 1)) && (("$(random)" -eq 0))]]
-      then
-         ((flipCoin["(HEADS TAILS HEADS)"]++))
-      elif [[ (("$(random)" -eq 0)) && (("$(random)" -eq 1)) && (("$(random)" -eq 1))]]
-      then
-         ((flipCoin["(HEADS TAILS TAILS)"]++))
-      elif [[ (("$(random)" -eq 1)) && (("$(random)" -eq 0)) && (("$(random)" -eq 0))]]
-      then
-         ((flipCoin["(TAILS HEADS HEADS)"]++))
-      elif [[ (("$(random)" -eq 1)) && (("$(random)" -eq 0)) && (("$(random)" -eq 1))]]
-      then
-         ((flipCoin["(TAILS HEADS TAILS)"]++))
-      elif [[ (("$(random)" -eq 1)) && (("$(random)" -eq 1)) && (("$(random)" -eq 0))]]
-      then
-         ((flipCoin["(TAILS TAILS HEADS)"]++))
-      else
-         ((flipCoin["(TAILS TAILS TAILS)"]++))
-      fi
-   done
+   ((flipCoin[$face]++))
+   face=''
 }
 
 #calculate percentage & store in dictionary
@@ -126,10 +85,13 @@ function printWinningCombination
       fi
    done
 }
-
-singlet $counter
-doublet $counter
-triplet $counter
+SINGLET=1
+DOUBLET=2
+TRIPLET=3
+flippingCoin $SINGLET
+flippingCoin $DOUBLET
+flippingCoin $TRIPLET
 calculatePercentage
 createArray
 printWinningCombination
+
